@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Care BD | Top 1% Telemedicine</title>
+    
+    <!-- Tailwind CSS (Zero-Build CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .page-section { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-white text-gray-900 selection:bg-teal-200 min-h-screen flex flex-col">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                
+                <!-- Logo -->
+                <div class="flex items-center cursor-pointer group" onclick="navigate('home')">
+                    <div class="bg-blue-700 p-2 rounded-xl mr-3 group-hover:bg-blue-800 transition-colors">
+                        <i data-lucide="stethoscope" class="h-6 w-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-2xl text-gray-900 tracking-tight">HEALTH CARE <span class="text-teal-600">BD</span></span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <button onclick="navigate('home')" class="nav-link text-sm font-semibold transition-colors text-gray-600 hover:text-blue-700" data-target="home">Home</button>
+                    <button onclick="navigate('about')" class="nav-link text-sm font-semibold transition-colors text-gray-600 hover:text-blue-700" data-target="about">About Us</button>
+                    <button onclick="navigate('services')" class="nav-link text-sm font-semibold transition-colors text-gray-600 hover:text-blue-700" data-target="services">Services</button>
+                    <button onclick="navigate('doctors')" class="nav-link text-sm font-semibold transition-colors text-gray-600 hover:text-blue-700" data-target="doctors">Consultants</button>
+                    <button onclick="navigate('contact')" class="nav-link text-sm font-semibold transition-colors text-gray-600 hover:text-blue-700" data-target="contact">Contact</button>
+                    
+                    <div class="pl-4 border-l border-gray-200 flex items-center space-x-4" id="auth-desktop">
+                        <!-- ডাইনামিক অথ স্টেট এখানে রেন্ডার হবে -->
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-600 p-2">
+                        <i data-lucide="menu" class="h-6 w-6" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-4 space-y-2 absolute w-full shadow-lg">
+            <!-- ডাইনামিক মোবাইল মেন্যু -->
+        </div>
+    </nav>
+
+    <!-- ================= MAIN CONTENT AREA ================= -->
+    <main class="flex-grow relative">
+
+        <!-- 1. HOME PAGE -->
+        <section id="page-home" class="page-section active">
+            <!-- Hero Section -->
+            <div class="relative bg-gradient-to-br from-blue-900 via-blue-800 to-teal-900 text-white overflow-hidden">
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576091160550-2173d40d7389?auto=format&fit=crop&q=80')] mix-blend-overlay opacity-20 bg-cover bg-center"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 relative z-10 flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 md:pr-12">
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">#1 Telemedicine in BD</span>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mt-6 mb-6 leading-tight tracking-tight">
+                            Expert Healthcare,<br/> <span class="text-teal-400">Anytime, Anywhere.</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-blue-100 mb-10 max-w-lg leading-relaxed">
+                            Connect with top-tier specialized doctors in Bangladesh via video consultation. Skip the waiting room, not the care.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="navigate('booking')" class="py-4 px-8 text-lg font-bold bg-teal-500 hover:bg-teal-400 text-gray-900 rounded-lg transition-all shadow-md">Book Appointment</button>
+                            <button onclick="navigate('doctors')" class="py-4 px-8 text-lg font-bold border-2 border-blue-300 text-white hover:bg-blue-800 hover:border-blue-200 rounded-lg transition-all">Find a Doctor</button>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 mt-16 md:mt-0 relative hidden md:block">
+                        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl shadow-2xl absolute -bottom-10 -left-10 z-20 w-64 animate-bounce" style="animation-duration: 3s">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-emerald-500 p-3 rounded-full"><i data-lucide="video" class="h-6 w-6 text-white"></i></div>
+                                <div>
+                                    <p class="text-sm font-bold">Live Consultation</p>
+                                    <p class="text-xs text-blue-200">Dr. Anisur Rahman</p>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=800" alt="Doctor Online" class="rounded-3xl shadow-2xl border-4 border-white/10 object-cover h-[500px] w-full" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- How it Works -->
+            <div class="py-20 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-16">How Telemedicine Works</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <div class="flex flex-col items-center group">
+                            <div class="h-20 w-20 bg-white rounded-2xl shadow-lg border border-gray-100 flex items-center justify-center mb-6 text-blue-700 group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300"><i data-lucide="search" class="h-10 w-10"></i></div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">1. Find your Doctor</h3>
+                            <p class="text-gray-600">Browse our verified specialist consultants by category.</p>
+                        </div>
+                        <div class="flex flex-col items-center group">
+                            <div class="h-20 w-20 bg-white rounded-2xl shadow-lg border border-gray-100 flex items-center justify-center mb-6 text-blue-700 group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300"><i data-lucide="calendar" class="h-10 w-10"></i></div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">2. Book a Slot</h3>
+                            <p class="text-gray-600">Choose a convenient time and confirm your appointment.</p>
+                        </div>
+                        <div class="flex flex-col items-center group">
+                            <div class="h-20 w-20 bg-white rounded-2xl shadow-lg border border-gray-100 flex items-center justify-center mb-6 text-blue-700 group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300"><i data-lucide="video" class="h-10 w-10"></i></div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">3. Consult Online</h3>
+                            <p class="text-gray-600">Join the secure video call directly from your dashboard.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. DOCTORS PAGE -->
+        <section id="page-doctors" class="page-section">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="mb-12">
+                    <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Our Top Consultants</h1>
+                    <p class="text-lg text-gray-600">Verified medical professionals ready to help you.</p>
+                </div>
+                <!-- Filters -->
+                <div id="doctor-filters" class="flex overflow-x-auto gap-3 pb-4 mb-8 scrollbar-hide"></div>
+                <!-- Grid -->
+                <div id="doctors-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+            </div>
+        </section>
+
+        <!-- 3. BOOKING PAGE -->
+        <section id="page-booking" class="page-section">
+            <div class="max-w-3xl mx-auto px-4 py-16">
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+                    <div class="bg-blue-700 p-8 text-white">
+                        <h2 class="text-3xl font-extrabold mb-2">Book Consultation</h2>
+                        <p class="text-blue-200" id="booking-step-text">Step 1 of 3</p>
+                        <div class="flex mt-6 gap-2" id="booking-progress">
+                            <div class="h-2 flex-1 rounded-full bg-teal-400"></div>
+                            <div class="h-2 flex-1 rounded-full bg-blue-900/50"></div>
+                            <div class="h-2 flex-1 rounded-full bg-blue-900/50"></div>
+                        </div>
+                    </div>
+
+                    <form id="booking-form" class="p-8">
+                        <!-- Step 1 -->
+                        <div id="booking-step-1" class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Select Doctor</label>
+                                <select id="b-doctor" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50"></select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Select Date</label>
+                                    <input type="date" id="b-date" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Available Times</label>
+                                    <select id="b-time" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div id="booking-step-2" class="space-y-6 hidden">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Patient Full Name</label>
+                                <input type="text" id="b-name" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Contact Phone</label>
+                                <input type="tel" id="b-phone" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50" placeholder="+880..." />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Briefly describe symptoms</label>
+                                <textarea id="b-symptoms" rows="3" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 resize-none"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 (Summary) -->
+                        <div id="booking-step-3" class="hidden">
+                            <div class="space-y-6 bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                                <h3 class="font-bold text-xl text-blue-900 mb-4 border-b border-blue-200 pb-2">Booking Summary</h3>
+                                <div class="grid grid-cols-2 gap-y-4 text-sm" id="booking-summary-details">
+                                    <!-- ડাইনামিক সামারি -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10 flex justify-between">
+                            <button type="button" id="btn-back" class="hidden inline-flex items-center justify-center px-6 py-2.5 rounded-lg font-medium bg-gray-100 hover:bg-gray-200 text-gray-800 transition-all">Back</button>
+                            <div id="spacer-back"></div>
+                            <button type="submit" id="btn-next" class="inline-flex items-center justify-center px-10 py-2.5 rounded-lg font-medium bg-blue-700 hover:bg-blue-800 text-white shadow-md transition-all">
+                                Continue <i data-lucide="chevron-right" class="ml-2 h-4 w-4"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. DASHBOARD PAGE -->
+        <section id="page-dashboard" class="page-section">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Sidebar -->
+                    <div class="w-full md:w-1/3 lg:w-1/4">
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 text-center sticky top-28">
+                            <div id="dash-avatar" class="h-24 w-24 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-extrabold">U</div>
+                            <h2 id="dash-name" class="text-xl font-bold text-gray-900 mb-1">User</h2>
+                            <p id="dash-id" class="text-gray-500 text-sm mb-6">Patient ID: ---</p>
+                            <div class="space-y-3">
+                                <button onclick="navigate('booking')" class="w-full inline-flex items-center justify-center px-6 py-2.5 rounded-lg font-medium bg-blue-700 hover:bg-blue-800 text-white shadow-md transition-all"><i data-lucide="calendar" class="h-4 w-4 mr-3"></i> New Booking</button>
+                                <button onclick="logout()" class="w-full inline-flex items-center justify-center px-6 py-2.5 rounded-lg font-medium bg-gray-100 hover:bg-gray-200 text-gray-800 transition-all"><i data-lucide="log-out" class="h-4 w-4 mr-3"></i> Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Main Dashboard -->
+                    <div class="w-full md:w-2/3 lg:w-3/4 space-y-8">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2"><i data-lucide="video" class="text-teal-600"></i> Upcoming Consultations</h2>
+                            <div id="dash-upcoming"></div>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900 mb-4">History</h2>
+                            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                                <table class="w-full text-sm text-left text-gray-500">
+                                    <thead class="bg-gray-50 border-b border-gray-200">
+                                        <tr>
+                                            <th class="px-6 py-4 font-semibold text-gray-900">Doctor</th>
+                                            <th class="px-6 py-4 font-semibold text-gray-900">Date & Time</th>
+                                            <th class="px-6 py-4 font-semibold text-gray-900">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dash-history"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. LOGIN PAGE -->
+        <section id="page-login" class="page-section">
+            <div class="min-h-[80vh] flex items-center justify-center bg-gray-50 px-4">
+                <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 w-full max-w-md">
+                    <div class="text-center mb-8">
+                        <i data-lucide="stethoscope" class="h-12 w-12 text-blue-700 mx-auto mb-4"></i>
+                        <h2 class="text-2xl font-extrabold text-gray-900">Welcome Back</h2>
+                        <p class="text-gray-500 mt-2">Sign in to manage your health.</p>
+                    </div>
+                    <form id="login-form" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
+                            <input type="email" id="login-email" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50" placeholder="you@example.com" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Password (Mock)</label>
+                            <input type="password" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50" placeholder="••••••••" />
+                        </div>
+                        <button type="submit" class="w-full py-3 text-lg inline-flex items-center justify-center rounded-lg font-medium bg-blue-700 hover:bg-blue-800 text-white shadow-md transition-all">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Placeholder Pages -->
+        <section id="page-about" class="page-section"><div class="py-32 text-center"><h1 class="text-4xl font-bold text-gray-900 mb-4">About Us</h1><p class="text-gray-500">This section is currently being architected.</p></div></section>
+        <section id="page-services" class="page-section"><div class="py-32 text-center"><h1 class="text-4xl font-bold text-gray-900 mb-4">Medical Services</h1><p class="text-gray-500">This section is currently being architected.</p></div></section>
+        <section id="page-contact" class="page-section"><div class="py-32 text-center"><h1 class="text-4xl font-bold text-gray-900 mb-4">Contact Support</h1><p class="text-gray-500">This section is currently being architected.</p></div></section>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div class="col-span-1 md:col-span-1">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="stethoscope" class="h-8 w-8 text-teal-500 mr-2"></i>
+                    <span class="font-bold text-2xl text-white">HEALTH CARE <span class="text-teal-500">BD</span></span>
+                </div>
+                <p class="text-sm text-gray-400 mb-6 leading-relaxed">Top 1% Telemedicine platform in Bangladesh, bringing world-class healthcare to your fingertips.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><button onclick="navigate('doctors')" class="hover:text-teal-400 transition-colors">Find a Doctor</button></li>
+                    <li><button onclick="navigate('booking')" class="hover:text-teal-400 transition-colors">Book Appointment</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Legal</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><button class="hover:text-teal-400 transition-colors">Privacy Policy</button></li>
+                    <li><button class="hover:text-teal-400 transition-colors">Terms of Service</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Contact</h4>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-center"><i data-lucide="phone" class="h-4 w-4 mr-2 text-teal-500"></i> +880 1700-000000</li>
+                    <li class="flex items-center"><i data-lucide="mail" class="h-4 w-4 mr-2 text-teal-500"></i> support@healthcarebd.com</li>
+                    <li class="flex items-center"><i data-lucide="map-pin" class="h-4 w-4 mr-2 text-teal-500"></i> Dhaka, Bangladesh</li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <p class="text-sm text-gray-500 mb-4 md:mb-0">© 2026 HEALTH CARE BD. All rights reserved.</p>
+            <div class="bg-gray-800 px-4 py-2 rounded-lg border border-gray-700 flex items-center gap-2">
+                <span class="text-xs text-gray-400 uppercase tracking-widest">Architect</span>
+                <a href="https://github.com/saazidhossain" target="_blank" class="text-sm font-bold text-teal-500 hover:text-teal-400 transition-colors">SAZID HOSSAIN</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 z-50 px-6 py-3 rounded-lg shadow-xl flex items-center gap-2 transition-all transform translate-y-20 opacity-0 pointer-events-none text-white">
+        <i id="toast-icon" data-lucide="check-circle" class="h-5 w-5"></i>
+        <span id="toast-msg" class="font-medium">Message</span>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // --- 1. MOCK DATA ---
+        const mockDoctors = [
+            { id: 'd1', name: 'Dr. Anisur Rahman', specialty: 'Cardiology', exp: 15, lang: 'Bengali, English', fee: 1200, rating: 4.9, available: true, image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=400' },
+            { id: 'd2', name: 'Dr. Salma Begum', specialty: 'General Medicine', exp: 8, lang: 'Bengali', fee: 500, rating: 4.8, available: true, image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=400' },
+            { id: 'd3', name: 'Dr. Hasan Mahmud', specialty: 'Mental Health', exp: 12, lang: 'Bengali, English', fee: 1000, rating: 4.7, available: false, image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=400' },
+            { id: 'd4', name: 'Dr. Farhana Islam', specialty: 'Pediatrics', exp: 10, lang: 'Bengali, English', fee: 800, rating: 4.9, available: true, image: 'https://images.unsplash.com/photo-1594824432258-f3abeb7a5619?auto=format&fit=crop&q=80&w=400' },
+        ];
+        const mockTimeSlots = ['10:00 AM', '11:30 AM', '02:00 PM', '04:30 PM', '06:00 PM', '08:00 PM'];
+
+        // --- 2. STATE ---
+        let state = {
+            currentPage: 'home',
+            user: null, // { name: '', email: '', id: '' }
+            appointments: [],
+            doctorFilter: 'All',
+            bookingStep: 1,
+            bookingData: {}
+        };
+
+        // --- 3. CORE FUNCTIONS ---
+        function init() {
+            lucide.createIcons();
+            document.getElementById('b-date').min = new Date().toISOString().split('T')[0];
+            updateAuthUI();
+            renderDoctors();
+            populateBookingSelects();
+            navigate('home');
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.className = `fixed bottom-4 right-4 z-50 px-6 py-3 rounded-lg shadow-xl flex items-center gap-2 transition-all duration-300 transform text-white ${type === 'success' ? 'bg-emerald-600' : 'bg-red-600'}`;
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function navigate(page) {
+            // Check auth for protected routes
+            if ((page === 'dashboard' || page === 'booking') && !state.user) {
+                showToast('Please login first', 'error');
+                page = 'login';
+            }
+
+            state.currentPage = page;
+            
+            // Update active nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if(link.dataset.target === page) {
+                    link.classList.add('text-blue-700'); link.classList.remove('text-gray-600');
+                } else {
+                    link.classList.remove('text-blue-700'); link.classList.add('text-gray-600');
+                }
+            });
+
+            // Toggle sections
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(`page-${page}`).classList.add('active');
+            
+            window.scrollTo(0, 0);
+            document.getElementById('mobile-menu').classList.add('hidden'); // Close mobile menu
+
+            // Specific page setups
+            if (page === 'dashboard') renderDashboard();
+            if (page === 'booking') {
+                state.bookingStep = 1;
+                updateBookingUI();
+            }
+        }
+
+        function login(email) {
+            state.user = { name: email.split('@')[0], email, id: `PAT-${Math.floor(Math.random() * 9000)}` };
+            updateAuthUI();
+            showToast('Logged in successfully');
+            navigate('dashboard');
+        }
+
+        function logout() {
+            state.user = null;
+            updateAuthUI();
+            showToast('Logged out');
+            navigate('home');
+        }
+
+        function updateAuthUI() {
+            const desktopAuth = document.getElementById('auth-desktop');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (state.user) {
+                desktopAuth.innerHTML = `
+                    <button onclick="navigate('dashboard')" class="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-blue-700"><i data-lucide="user" class="h-4 w-4"></i> ${state.user.name}</button>
+                    <button onclick="logout()" class="px-4 py-1.5 text-sm border-2 border-blue-700 text-blue-700 rounded-lg hover:bg-blue-50 font-medium transition-all">Logout</button>
+                `;
+                mobileMenu.innerHTML = `
+                    <button onclick="navigate('dashboard')" class="block w-full text-left px-3 py-3 rounded-md font-medium text-gray-700 hover:bg-gray-50">Dashboard</button>
+                    <button onclick="logout()" class="block w-full text-left px-3 py-3 rounded-md font-medium text-gray-700 hover:bg-gray-50">Logout</button>
+                `;
+            } else {
+                desktopAuth.innerHTML = `<button onclick="navigate('login')" class="px-6 py-2.5 rounded-lg font-medium bg-blue-700 hover:bg-blue-800 text-white shadow-md transition-all text-sm">Login / Sign Up</button>`;
+                mobileMenu.innerHTML = `
+                    <button onclick="navigate('home')" class="block w-full text-left px-3 py-3 rounded-md font-medium text-gray-700">Home</button>
+                    <button onclick="navigate('login')" class="block w-full text-left px-3 py-3 rounded-md font-medium bg-blue-700 text-white mt-2">Login / Sign Up</button>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        // --- 4. RENDERERS ---
+        function renderDoctors() {
+            const filtersDiv = document.getElementById('doctor-filters');
+            const gridDiv = document.getElementById('doctors-grid');
+            
+            const specialties = ['All', ...new Set(mockDoctors.map(d => d.specialty))];
+            
+            // Render Filters
+            filtersDiv.innerHTML = specialties.map(spec => `
+                <button onclick="state.doctorFilter = '${spec}'; renderDoctors()" 
+                    class="whitespace-nowrap px-5 py-2 rounded-full font-medium text-sm transition-colors border ${state.doctorFilter === spec ? 'bg-blue-700 text-white border-blue-700' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}">
+                    ${spec}
+                </button>
+            `).join('');
+
+            // Render Grid
+            const filtered = state.doctorFilter === 'All' ? mockDoctors : mockDoctors.filter(d => d.specialty === state.doctorFilter);
+            gridDiv.innerHTML = filtered.map(doctor => `
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="${doctor.image}" alt="${doctor.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div class="absolute top-3 right-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-semibold ${doctor.available ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-800'}">${doctor.available ? 'Available Today' : 'Fully Booked'}</span></div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">${doctor.name}</h3>
+                        <p class="text-teal-700 font-semibold text-sm mb-4">${doctor.specialty}</p>
+                        <div class="space-y-2 mb-6 flex-grow text-sm text-gray-600">
+                            <div class="flex items-center"><i data-lucide="star" class="h-4 w-4 text-amber-500 mr-2"></i> ${doctor.rating} Rating</div>
+                            <div class="flex items-center"><i data-lucide="clock" class="h-4 w-4 mr-2"></i> ${doctor.exp} Years Exp.</div>
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <span class="font-bold text-gray-900 text-lg">৳${doctor.fee}</span>
+                            <button onclick="navigate('booking')" class="py-2 px-4 rounded-lg font-medium bg-blue-700 text-white text-sm">Book</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderDashboard() {
+            if(!state.user) return;
+            document.getElementById('dash-avatar').innerText = state.user.name.charAt(0).toUpperCase();
+            document.getElementById('dash-name').innerText = state.user.name;
+            document.getElementById('dash-id').innerText = `Patient ID: ${state.user.id}`;
+
+            const upcomingDiv = document.getElementById('dash-upcoming');
+            const historyDiv = document.getElementById('dash-history');
+            
+            const upcoming = state.appointments.filter(a => a.status === 'Upcoming');
+            const history = state.appointments.filter(a => a.status !== 'Upcoming');
+
+            if(upcoming.length === 0) {
+                upcomingDiv.innerHTML = `<div class="bg-gray-50 border border-dashed border-gray-300 rounded-2xl p-10 text-center"><p class="text-gray-500 mb-4">No upcoming appointments.</p><button onclick="navigate('doctors')" class="border-2 border-blue-700 text-blue-700 px-6 py-2 rounded-lg font-medium">Find a Doctor</button></div>`;
+            } else {
+                upcomingDiv.innerHTML = upcoming.map(apt => `
+                    <div class="bg-white border border-blue-100 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-sm mb-4">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">${apt.date}</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">${apt.time}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900">${apt.doctorName}</h3>
+                            <p class="text-sm text-gray-500">Patient: ${apt.patientName}</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                            <button onclick="cancelApt('${apt.id}')" class="px-6 py-2.5 rounded-lg font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-all">Cancel</button>
+                            <button class="px-6 py-2.5 rounded-lg font-medium bg-teal-600 text-white flex items-center justify-center"><i data-lucide="video" class="h-4 w-4 mr-2"></i> Join Call</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            if(history.length === 0) {
+                historyDiv.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-gray-400">No history found.</td></tr>`;
+            } else {
+                historyDiv.innerHTML = history.map(apt => `
+                    <tr class="border-b border-gray-100 last:border-0">
+                        <td class="px-6 py-4 font-medium text-gray-900">${apt.doctorName}</td>
+                        <td class="px-6 py-4">${apt.date} at ${apt.time}</td>
+                        <td class="px-6 py-4"><span class="px-2.5 py-0.5 rounded-full text-xs font-semibold ${apt.status === 'Completed' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${apt.status}</span></td>
+                    </tr>
+                `).join('');
+            }
+            lucide.createIcons();
+        }
+
+        function cancelApt(id) {
+            state.appointments = state.appointments.map(a => a.id === id ? {...a, status: 'Cancelled'} : a);
+            showToast('Appointment Cancelled', 'error');
+            renderDashboard();
+        }
+
+        // --- 5. BOOKING LOGIC ---
+        function populateBookingSelects() {
+            document.getElementById('b-doctor').innerHTML = `<option value="">-- Choose a Consultant --</option>` + 
+                mockDoctors.map(d => `<option value="${d.id}">${d.name} - ${d.specialty} (৳${d.fee})</option>`).join('');
+            document.getElementById('b-time').innerHTML = `<option value="">-- Select Time --</option>` + 
+                mockTimeSlots.map(t => `<option value="${t}">${t}</option>`).join('');
+        }
+
+        function updateBookingUI() {
+            // Update Progress Bar
+            const prog = document.getElementById('booking-progress').children;
+            for(let i=0; i<3; i++) {
+                prog[i].className = `h-2 flex-1 rounded-full ${i < state.bookingStep ? 'bg-teal-400' : 'bg-blue-900/50'}`;
+            }
+            document.getElementById('booking-step-text').innerText = `Step ${state.bookingStep} of 3`;
+
+            // Toggle Steps
+            document.getElementById('booking-step-1').classList.add('hidden');
+            document.getElementById('booking-step-2').classList.add('hidden');
+            document.getElementById('booking-step-3').classList.add('hidden');
+            document.getElementById(`booking-step-${state.bookingStep}`).classList.remove('hidden');
+
+            // Toggle Buttons
+            const btnBack = document.getElementById('btn-back');
+            const spacer = document.getElementById('spacer-back');
+            const btnNext = document.getElementById('btn-next');
+
+            if(state.bookingStep > 1) {
+                btnBack.classList.remove('hidden'); spacer.classList.add('hidden');
+            } else {
+                btnBack.classList.add('hidden'); spacer.classList.remove('hidden');
+            }
+            btnNext.innerHTML = state.bookingStep === 3 ? 'Confirm & Book' : 'Continue <i data-lucide="chevron-right" class="ml-2 h-4 w-4"></i>';
+            
+            if(state.bookingStep === 2 && state.user) {
+                document.getElementById('b-name').value = state.user.name;
+            }
+
+            if(state.bookingStep === 3) {
+                const docId = document.getElementById('b-doctor').value;
+                const doc = mockDoctors.find(d => d.id === docId);
+                state.bookingData = {
+                    doctorId: doc.id,
+                    doctorName: doc.name,
+                    date: document.getElementById('b-date').value,
+                    time: document.getElementById('b-time').value,
+                    patientName: document.getElementById('b-name').value,
+                    phone: document.getElementById('b-phone').value,
+                    fee: doc.fee
+                };
+                
+                document.getElementById('booking-summary-details').innerHTML = `
+                    <span class="text-gray-500">Doctor:</span> <span class="font-bold text-gray-900">${state.bookingData.doctorName}</span>
+                    <span class="text-gray-500">Date & Time:</span> <span class="font-bold text-gray-900">${state.bookingData.date} at ${state.bookingData.time}</span>
+                    <span class="text-gray-500">Patient:</span> <span class="font-bold text-gray-900">${state.bookingData.patientName}</span>
+                    <span class="text-gray-500">Phone:</span> <span class="font-bold text-gray-900">${state.bookingData.phone}</span>
+                    <span class="text-gray-500 mt-4">Consultation Fee:</span> <span class="font-extrabold text-teal-600 text-xl mt-3">৳${state.bookingData.fee}</span>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        // --- 6. EVENT LISTENERS ---
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            login(document.getElementById('login-email').value);
+        });
+
+        document.getElementById('btn-back').addEventListener('click', () => {
+            if(state.bookingStep > 1) { state.bookingStep--; updateBookingUI(); }
+        });
+
+        document.getElementById('booking-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if(state.bookingStep < 3) {
+                state.bookingStep++;
+                updateBookingUI();
+            } else {
+                // Submit Booking
+                state.appointments.unshift({
+                    ...state.bookingData,
+                    id: `APT-${Math.floor(Math.random() * 90000)}`,
+                    status: 'Upcoming'
+                });
+                showToast('Appointment Confirmed!');
+                navigate('dashboard');
+            }
+        });
+
+        // Initialize App
+        init();
+    </script>
+</body>
+</html>
+
